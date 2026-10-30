@@ -1,0 +1,9 @@
+{
+  "name": "rvbtech-contact-limits",
+  "main": "index.mjs",
+  "compatibility_date": "2026-10-01",
+  "durable_objects": {
+    "bindings": [{ "name": "CONTACT_LIMITS", "class_name": "ContactLimits" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ContactLimits"] }]
+}

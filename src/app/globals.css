@@ -1,26 +1,91 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Shared design tokens. Components consume these through Tailwind utilities. */
+@theme {
+  --color-mineral: #f2f0e9;
+  --color-graphite: #171c1b;
+  --color-copper: #a14b30;
+  --color-copper-strong: #883c26;
+  --color-copper-light: #dca582;
+  --color-sage: #4d665c;
+  --color-fog: #d6ddd4;
+  --color-paper: #e5e4db;
+  --color-forest: #242d28;
+  --color-muted: #586052;
+  --color-line: #c8cabe;
+  --color-line-dark: #414a43;
+  --color-electric: #aabfa3;
+  --color-water: #a9c5bf;
+  --color-grid-dark: color-mix(in srgb, var(--color-mineral) 4%, transparent);
+  --color-grid-light: color-mix(in srgb, var(--color-sage) 12%, transparent);
+
+  --text-display-hero: clamp(2.625rem, 12vw, 4.875rem);
+  --text-display-hero-wide: clamp(3.5rem, 7.6vw, 7rem);
+  --text-display-page: clamp(2.625rem, 10.6vw, 4.25rem);
+  --text-display-page-wide: clamp(3.5rem, 7vw, 6rem);
+  --text-display-section: clamp(2.125rem, 8.6vw, 3rem);
+  --text-display-section-wide: clamp(2.375rem, 4.3vw, 3.875rem);
+  --text-display-feature: clamp(2.375rem, 10.5vw, 4.25rem);
+  --text-display-feature-wide: clamp(3rem, 7vw, 6.5rem);
+  --text-display-service: clamp(2.5rem, 10.6vw, 3.9375rem);
+  --text-display-service-wide: clamp(2.8125rem, 5.1vw, 4.75rem);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-archivo), Arial, sans-serif;
+  --color-background: var(--color-mineral);
+  --color-foreground: var(--color-graphite);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+  }
+  body {
+    @apply bg-mineral font-sans text-graphite antialiased;
+  }
+  ::selection {
+    @apply bg-copper-light text-graphite;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus-color, var(--color-copper));
+    outline-offset: 5px;
+  }
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  svg {
+    flex-shrink: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* One shared technical drawing texture; layout remains in Tailwind classes. */
+@utility blueprint-grid {
+  background-image:
+    linear-gradient(
+      var(--grid-color, var(--color-grid-light)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      var(--grid-color, var(--color-grid-light)) 1px,
+      transparent 1px
+    );
+  background-size: 2.5rem 2.5rem;
 }
