@@ -1,9 +1,11 @@
 import { ArrowUpRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Container } from "@/components/ui/layout";
 import { VideoLibrary } from "@/components/ui/video-library";
 import { type SiteVideo, youtubeChannelUrl } from "@/content/media";
 
 export function WorkVideos({ videos }: { videos: SiteVideo[] }) {
+  const t = useTranslations("videos");
   const featuredVideos = videos.filter((video) => video.featured);
   if (featuredVideos.length === 0) return null;
   return (
@@ -17,7 +19,7 @@ export function WorkVideos({ videos }: { videos: SiteVideo[] }) {
             id="work-videos-heading"
             className="text-2xl font-medium tracking-[-0.03em] md:text-3xl"
           >
-            Installation videos
+            {t("heading")}
           </h2>
           <a
             className="inline-flex min-h-11 items-center gap-2 text-sm text-mineral/80 underline underline-offset-4 hover:text-mineral"
@@ -25,9 +27,9 @@ export function WorkVideos({ videos }: { videos: SiteVideo[] }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Open on YouTube
+            {t("openYoutube")}
             <ArrowUpRight size={16} aria-hidden="true" />
-            <span className="sr-only"> (opens in a new tab)</span>
+            <span className="sr-only">{t("opensNewTab")}</span>
           </a>
         </div>
         <VideoLibrary videos={featuredVideos} />

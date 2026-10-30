@@ -22,6 +22,12 @@ export const servicePhoto = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "captionNe",
+      title: "Caption (Nepali)",
+      type: "string",
+      description: "Optional Nepali caption for the /ne version of the site.",
+    }),
+    defineField({
       name: "alt",
       title: "Alternative text",
       type: "text",
@@ -29,6 +35,14 @@ export const servicePhoto = defineType({
       description:
         "Describe what is visible for visitors using a screen reader.",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "altNe",
+      title: "Alternative text (Nepali)",
+      type: "text",
+      rows: 2,
+      description:
+        "Optional Nepali description for screen-reader users on the /ne version.",
     }),
     defineField({
       name: "category",
@@ -59,6 +73,12 @@ export const serviceVideo = defineType({
       title: "Title",
       type: "string",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "titleNe",
+      title: "Title (Nepali)",
+      type: "string",
+      description: "Optional Nepali title for the /ne version of the site.",
     }),
     defineField({
       name: "videoUrl",

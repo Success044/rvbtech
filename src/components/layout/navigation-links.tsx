@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { site } from "@/content/site";
+import { Link } from "@/i18n/navigation";
 import { cx } from "@/lib/classes";
 
 export function NavigationLinks({
@@ -16,6 +17,8 @@ export function NavigationLinks({
   showArrows?: boolean;
   onNavigate?: () => void;
 }) {
+  const t = useTranslations("navigation");
+
   return site.navigation.map((item) => (
     <Link
       key={item.label}
@@ -30,7 +33,7 @@ export function NavigationLinks({
         className,
       )}
     >
-      {item.label}
+      {t(item.href === "/" ? "home" : item.href.slice(1))}
       {showArrows && <ArrowUpRight size={18} aria-hidden="true" />}
     </Link>
   ));

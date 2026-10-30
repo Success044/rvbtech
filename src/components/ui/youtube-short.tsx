@@ -2,7 +2,13 @@
 import { getYouTubeVideoId } from "@/lib/youtube";
 
 // Mounted only after a visitor chooses a clip. Closing its dialog removes it.
-export function YouTubeShort({ video }: { video: SiteVideo }) {
+export function YouTubeShort({
+  video,
+  title,
+}: {
+  video: SiteVideo;
+  title: string;
+}) {
   const videoId = getYouTubeVideoId(video.url);
 
   if (!videoId) return null;
@@ -12,7 +18,7 @@ export function YouTubeShort({ video }: { video: SiteVideo }) {
       <iframe
         className="absolute inset-0 h-full w-full border-0"
         src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&playsinline=1`}
-        title={video.title}
+        title={title}
         allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen

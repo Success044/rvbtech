@@ -1,0 +1,370 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "metadata": {
+    "homeTitle": "Plumbing & Electrical Services in Nepal",
+    "homeDescription": "Thoughtful planning and careful plumbing and electrical installation. Meet rvbtech, a contracting company building from the inside out.",
+    "aboutTitle": "Our story & approach",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "Read the R.V.B Tech website Privacy Policy, including how enquiry information may be used and handled.",
+    "termsTitle": "Terms and Conditions",
+    "termsDescription": "Read the R.V.B Tech website Terms and Conditions, including information about enquiries, quotes, and website use."
+  },
+  "header": {
+    "homeLink": "rvbtech home",
+    "businessType": "Plumbing & electrical",
+    "mainNavigation": "Main navigation",
+    "mobileNavigation": "Mobile navigation",
+    "discussProject": "Discuss your project",
+    "letsTalk": "Let’s talk",
+    "openNavigation": "Open navigation",
+    "closeNavigation": "Close navigation",
+    "mobileTagline": "Plumbing & electrical. Planned together."
+  },
+  "footer": {
+    "homeLink": "rvbtech home",
+    "description": "Plumbing & electrical contracting.",
+    "tagline": "Built from the inside out.",
+    "privacyPolicy": "Privacy Policy",
+    "termsAndConditions": "Terms and Conditions",
+    "rights": "All rights reserved.",
+    "legalNavigation": "Legal",
+    "closing": "Thoughtfully planned. Carefully connected."
+  },
+  "language": {
+    "label": "Language",
+    "switchTo": "Switch language to {language}",
+    "english": "English",
+    "nepali": "नेपाली"
+  },
+  "home": {
+    "hero": {
+      "descriptor": "Plumbing & electrical contracting",
+      "fromPlanning": "From planning to handover",
+      "taglineLine1": "Built from ",
+      "taglineLine2": "the inside ",
+      "taglineLine3": "out.",
+      "description": "Good spaces start with what you don’t see. Thoughtful planning, careful installation, and the connections that bring a building to life.",
+      "discussProject": "Discuss your project",
+      "exploreServices": "Explore our services",
+      "behindTheFinish": "Behind the finish",
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "conceptIllustration": "Concept illustration",
+      "buildingMore": "A building is more than its finish.",
+      "lookCloser": "Look closer at the systems that connect it."
+    },
+    "audience": {
+      "heading": "Built around your space.",
+      "homeowners": "Homeowners",
+      "architects": "Architects & designers",
+      "builders": "Builders & contractors"
+    },
+    "approach": {
+      "rail": "Our approach",
+      "heading": "The finish is only part of the story.",
+      "lead": "Behind every comfortable space is a network of decisions. Where a pipe runs. How a wire is routed. How it all works together.",
+      "description": "We believe plumbing and electrical work deserves the same care as the spaces you see. That starts with understanding the building, planning the details, and paying attention at every connection.",
+      "link": "See how we work",
+      "planning": "Planning before installation",
+      "coordination": "Coordination between systems",
+      "connections": "Care at every connection"
+    },
+    "services": {
+      "sectionLabel": "What we do",
+      "sectionDescription": "Plumbing and electrical work, considered as part of the whole building.",
+      "headingLine1": "Two disciplines.",
+      "headingLine2": "One complete picture.",
+      "plumbing": {
+        "title": "Plumbing",
+        "diagramLabel": "Supply & drainage",
+        "description": "Thoughtfully planned water supply and drainage. From the first pipe route to the final connection, every detail belongs to a bigger picture.",
+        "topics": ["Water supply", "Drainage", "System installation"],
+        "contact": "Discuss plumbing work"
+      },
+      "electrical": {
+        "title": "Electrical",
+        "diagramLabel": "Wiring & distribution",
+        "description": "Considered electrical systems for the way a space will be used. Coordinated routes, careful installation, and attention to the connections behind the walls.",
+        "topics": [
+          "Wiring & routing",
+          "Power distribution",
+          "System installation"
+        ],
+        "contact": "Discuss electrical work"
+      },
+      "conceptIllustration": "System concept illustration"
+    },
+    "process": {
+      "sectionLabel": "How we work",
+      "sectionDescription": "A clear path from the first conversation to the final walkthrough.",
+      "headingLine1": "Every stage.",
+      "headingLine2": "Every connection.",
+      "steps": [
+        {
+          "title": "A conversation first",
+          "description": "Understand your space, your plans, and what you need the systems to do."
+        },
+        {
+          "title": "Plan the details",
+          "description": "Consider the routes, connections, and coordination before work begins."
+        },
+        {
+          "title": "Bring it together",
+          "description": "Carry the plan through installation, with care for the work around it."
+        },
+        {
+          "title": "Check & hand over",
+          "description": "Review the installation and walk through the completed scope together."
+        }
+      ]
+    },
+    "about": {
+      "diagramLabel": "Plumbing + Electrical",
+      "caption": "The work behind the finish.",
+      "eyebrow": "Meet rvbtech",
+      "heading": "A company you can come back to.",
+      "paragraph1": "rvbtech grew from a simple belief: good work should come with clear advice and someone to turn to afterwards.",
+      "paragraph2": "Our founder’s field experience shaped a more considered approach to plumbing and electrical contracting. The company gives that approach a place clients can return to.",
+      "link": "Read our story"
+    },
+    "invitation": {
+      "titleLine1": "What are",
+      "titleLine2": "you building?",
+      "description": "A new home, a renovation, or a building taking shape. Let’s talk about the work that brings it together."
+    }
+  },
+  "projectInvitation": {
+    "eyebrow": "Start with a conversation",
+    "businessType": "Plumbing & electrical contracting",
+    "discussProject": "Discuss your project",
+    "exploreServices": "Explore plumbing & electrical"
+  },
+  "about": {
+    "pageTitle": "About",
+    "metadataDescription": "Meet rvbtech, a plumbing and electrical contracting company in Nepal. Discover the founder's field experience and the belief in better advice, careful work, and lasting accountability.",
+    "heroHeading": "A company you can come back to.",
+    "eyebrow": "About rvbtech",
+    "lead": "Good work should come with clear advice and someone to turn to afterwards.",
+    "intro": "We’re a plumbing and electrical contracting company in Nepal, shaped by our founder’s {years} years of hands-on field experience and a desire for a more thoughtful way of working.",
+    "storyLink": "The story behind the company",
+    "businessType": "Plumbing & electrical contracting",
+    "values": "Experience. Understanding. Responsibility.",
+    "storyEyebrow": "The story behind the work",
+    "storyHeading": "From experience to purpose.",
+    "storyDescription": "The idea for rvbtech grew from lessons in the field: the work itself, the conversations around it, and what happens after handover.",
+    "years": "years",
+    "founderExperience": "Our founder’s hands-on field experience.",
+    "foundation": "The foundation of our approach.",
+    "chapters": [
+      {
+        "title": "Learning through the work",
+        "description": "Hands-on work teaches lessons a finished room cannot show. Pipe routes, connections, material choices, and the use of a small space all matter. Over years in the field, our founder learned to look beyond the visible result and consider how each decision affects the whole installation."
+      },
+      {
+        "title": "Seeing beyond the immediate fix",
+        "description": "A tap can run and a light can turn on while important questions remain unanswered. Was the layout considered? Were the materials suitable? What will future maintenance involve? Those questions shaped a belief that good work should be judged by more than whether it functions on the day it is finished."
+      },
+      {
+        "title": "Making room for better advice",
+        "description": "Clients deserve a clear explanation of their options before installation begins. An inspiring reference image is a starting point; the available space, budget, materials, and practical limits determine what can be achieved. Better conversations help everyone understand the intended result and the choices behind it."
+      },
+      {
+        "title": "Creating a company to return to",
+        "description": "Work often begins with a personal recommendation: someone knows a plumber or an electrician. But finding that same person again can be difficult. The idea behind rvbtech was to create a recognizable company that clients could contact again, with a shared understanding of the work and the relationship behind it."
+      },
+      {
+        "title": "Looking further ahead",
+        "description": "That idea continues to shape our direction. We want to bring careful workmanship together with clearer advice, agreed expectations, and better project records. The ambition is a lasting company built around responsibility, with future assistance discussed under clear, agreed conditions."
+      }
+    ],
+    "qualityRail": "What quality means to us",
+    "qualityHeading": "A working connection is only the beginning.",
+    "qualityIntro": "Material selection, space, layout, workmanship, and access for maintenance all shape an installation. We believe clients deserve to understand those decisions.",
+    "firstQuestion": "The first question",
+    "doesItWork": "Does it work?",
+    "simpleResult": "The tap runs. The light turns on. The immediate need is met.",
+    "questionsEyebrow": "The questions behind it",
+    "consideredQuestion": "Has it been thought through?",
+    "qualityQuestions": [
+      "Is the layout right for the available space?",
+      "Are the proposed materials suitable for the work?",
+      "Has access for future maintenance been considered?",
+      "Are the scope, cost, and expected finish understood?"
+    ],
+    "qualityTradeoffs": "Price alone does not explain quality. A suitable solution depends on the space, scope, materials, and work involved. Clear advice helps clients understand the trade-offs and decide what matters for their project.",
+    "consultationLabel": "Good work begins before installation",
+    "consultationDescription": "Understanding the work together, before it becomes part of the building.",
+    "consultationHeadingLine1": "Clear plans.",
+    "consultationHeadingLine2": "Clear expectations.",
+    "consultationSteps": [
+      {
+        "title": "Understand the space",
+        "description": "Start with the building, how it will be used, and what the client needs. Small details and practical limits belong in the first conversation."
+      },
+      {
+        "title": "Explain the options",
+        "description": "Discuss materials, layout, finish, and budget together. A useful recommendation makes the trade-offs understandable."
+      },
+      {
+        "title": "Agree the scope",
+        "description": "Build a shared understanding of the proposed work, what is included, and the intended result before installation begins."
+      },
+      {
+        "title": "Keep changes clear",
+        "description": "When requirements change, the revised work and its effect on cost should be discussed, recorded, and agreed rather than assumed."
+      }
+    ],
+    "visionEyebrow": "The longer view",
+    "visionHeading": "Raising expectations for the work behind the walls.",
+    "visionParagraph1": "We want to help people value the advice, planning, and craftsmanship that make a difference long before a room is finished.",
+    "visionParagraph2": "Our aim is to build a company known for explaining its recommendations, taking care with the work, and giving clients a clear understanding of what comes next. That is the responsibility we want rvbtech to stand for.",
+    "invitationTitle": "Let’s plan it right.",
+    "invitationDescription": "A new home, a renovation, or a space that needs a better solution. Start with the questions that matter to your project."
+  },
+  "servicesPage": {
+    "pageTitle": "Services",
+    "metadataDescription": "Explore rvbtech's plumbing and electrical services, installation photos, and site videos.",
+    "headingLine1": "Plumbing &",
+    "headingLine2": "electrical.",
+    "intro": "Water supply, bathroom fittings, lighting and wiring. See what we install and take a closer look at our work.",
+    "discussProject": "Discuss your project",
+    "viewWork": "View our work",
+    "illustrationCaption": "A closer look at the connections. Concept illustration.",
+    "servicesLabel": "Services we offer",
+    "plumbing": {
+      "title": "Plumbing",
+      "description": "From the tank connections to the fittings you use every day.",
+      "topics": [
+        "Water supply & pipe routing",
+        "Water tank connections",
+        "Bathroom & sanitary fittings",
+        "Concealed pipework"
+      ]
+    },
+    "electrical": {
+      "title": "Electrical",
+      "description": "Lighting and electrical connections, with the routes considered too.",
+      "topics": [
+        "Lighting installations",
+        "Switchboard installations",
+        "Electrical conduit routing"
+      ]
+    },
+    "enquiryHeading": "Have a project in mind?",
+    "enquiryDescription": "Tell us about your space and the work you need.",
+    "loading": "Loading our work…"
+  },
+  "contactPage": {
+    "pageTitle": "Contact",
+    "metadataDescription": "Contact R.V.B Tech about plumbing and electrical work. Call, WhatsApp, email, or send a project enquiry.",
+    "heading": "Let’s talk about your project.",
+    "description": "A new installation, a renovation, or a question about plumbing and electrical work. Tell us what you have in mind.",
+    "callUs": "Call us",
+    "preferMessage": "Prefer a message?",
+    "whatsapp": "Chat on WhatsApp",
+    "email": "Email",
+    "opensNewTab": " (opens in a new tab)",
+    "guidance": "You can send a broad location and a short description first. We’ll discuss the details with you directly.",
+    "officeLocation": "Office location",
+    "mapTitle": "R.V.B Tech office location on Google Maps"
+  },
+  "contactForm": {
+    "heading": "Tell us about the work",
+    "intro": "A few details are enough to start. Please include a phone number or email so we can reply.",
+    "legend": "Your enquiry details",
+    "name": "Name",
+    "phone": "Phone / WhatsApp",
+    "email": "Email",
+    "service": "Service",
+    "selectService": "Select a service",
+    "location": "Area or city",
+    "message": "What do you need?",
+    "messagePlaceholder": "Tell us about your space and the work you have in mind.",
+    "required": "required",
+    "optional": "optional",
+    "honeypot": "Leave this field empty",
+    "privacy": "We use these details to respond to your enquiry. Please share only what is needed to discuss the work. If you provide an email address, we’ll also send a copy of your enquiry to it. Submissions are processed by Cloudflare and our email provider, Resend.",
+    "unavailable": "Online enquiries will be available shortly. You can call, WhatsApp, or email us for now.",
+    "securityUnavailable": "The security check could not load. Please try again, or use the contact details beside the form.",
+    "securityRequired": "Please complete the security check before sending.",
+    "securityRefresh": "Complete the security check, then try again.",
+    "sending": "Sending enquiry…",
+    "send": "Send enquiry",
+    "checkFields": "Please check the highlighted fields.",
+    "sendFailed": "Your enquiry could not be sent. Please try again or contact us directly.",
+    "sent": "Your enquiry has been submitted. We’ll get back to you using the details you provided.",
+    "uncertain": "We couldn’t confirm your enquiry was sent. Your message is still here; please try again or contact us directly.",
+    "errors": {
+      "text": "Enter text in this field.",
+      "name": "Enter your name using 2 to 100 characters.",
+      "phoneOrEmail": "Enter a phone number or email so we can get back to you.",
+      "emailOrPhone": "Enter an email or phone number so we can get back to you.",
+      "phoneFormat": "Enter a valid phone number, including the country code if needed.",
+      "emailFormat": "Enter a valid email address.",
+      "service": "Choose the service you need.",
+      "location": "Keep the location to 120 characters, on one line.",
+      "message": "Describe the work using 10 to 3,000 characters."
+    },
+    "services": {
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "both": "Both",
+      "notSure": "Not sure yet"
+    },
+    "serverMessages": [
+      "We can’t send your enquiry right now. Please call or email us instead.",
+      "You’ve tried a few times. Please wait before sending another enquiry.",
+      "Your enquiry could not be read. Keep the message within the form’s limits and try again.",
+      "Check the form and try again.",
+      "Your enquiry could not be accepted. Please call or email us instead.",
+      "Refresh the contact page and try again.",
+      "Complete the security check, then try again.",
+      "The security check expired or could not be verified. Please try again.",
+      "Online enquiries are temporarily busy. Please call or email us instead.",
+      "Your enquiry could not be sent. Your message is still here; please try again or contact us directly.",
+      "Your enquiry was sent, but we couldn’t send a copy to your email address. We’ll contact you using the details you provided.",
+      "Your enquiry was submitted to our team. Resend accepted a copy for sending to your email address; inbox delivery may vary.",
+      "Your enquiry was submitted to our team, but we couldn’t confirm that Resend accepted the email copy.",
+      "Your enquiry was submitted to our team. We’ll get back to you using the contact details you provided."
+    ]
+  },
+  "gallery": {
+    "heading": "Selected work",
+    "filterLegend": "Filter work by service",
+    "all": "All work",
+    "plumbing": "Plumbing",
+    "electrical": "Electrical",
+    "photosShown": "{count} photos shown",
+    "enlarge": "Enlarge {caption}",
+    "close": "Close photo",
+    "previous": "Previous",
+    "next": "Next",
+    "previousPhoto": "Previous photo",
+    "nextPhoto": "Next photo"
+  },
+  "videos": {
+    "heading": "Installation videos",
+    "openYoutube": "Open on YouTube",
+    "play": "Play {title}",
+    "watch": "Watch video",
+    "close": "Close video",
+    "watchOnYoutube": "Watch this clip on YouTube",
+    "opensNewTab": " (opens in a new tab)"
+  },
+  "legalPage": {
+    "effectiveDate": "Effective date:"
+  },
+  "controls": {
+    "skip": "Skip to content",
+    "backToTop": "Back to top",
+    "backHome": "Back to home",
+    "notFound": "Page not found",
+    "breadcrumb": "Breadcrumb",
+    "footerNavigation": "Footer navigation"
+  }
+}

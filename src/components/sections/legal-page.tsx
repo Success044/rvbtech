@@ -1,8 +1,11 @@
+import { useTranslations } from "next-intl";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Container } from "@/components/ui/layout";
 import type { LegalDocument } from "@/content/legal";
 
 export function LegalPage({ document }: { document: LegalDocument }) {
+  const t = useTranslations("legalPage");
+
   return (
     <section
       className="bg-white py-10 text-graphite md:py-14 xl:py-16"
@@ -18,7 +21,7 @@ export function LegalPage({ document }: { document: LegalDocument }) {
             {document.title}
           </h1>
           <p className="mt-4 text-sm text-muted">
-            Effective date: {document.effectiveDate}
+            {t("effectiveDate")} {document.effectiveDate}
           </p>
           <p className="mt-7 max-w-[72ch] text-base leading-relaxed text-muted">
             {document.introduction}

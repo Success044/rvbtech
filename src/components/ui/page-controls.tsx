@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { cx } from "@/lib/classes";
 import { actionClasses } from "./action-link";
@@ -12,6 +13,8 @@ function scrollBehavior(): ScrollBehavior {
 }
 
 export function SkipToContent() {
+  const t = useTranslations("controls");
+
   return (
     <button
       className="fixed top-2.5 left-2.5 z-50 -translate-y-[150%] bg-mineral px-6 py-4 text-graphite focus:translate-y-0"
@@ -22,12 +25,14 @@ export function SkipToContent() {
         main?.scrollIntoView({ block: "start", behavior: "instant" });
       }}
     >
-      Skip to content
+      {t("skip")}
     </button>
   );
 }
 
 export function BackToTop() {
+  const t = useTranslations("controls");
+
   return (
     <button
       className="inline-flex min-h-11 items-center gap-4 text-xs hover:text-copper-light"
@@ -37,7 +42,7 @@ export function BackToTop() {
         window.scrollTo({ top: 0, behavior: scrollBehavior() });
       }}
     >
-      Back to top <ArrowUpRight size={16} aria-hidden="true" />
+      {t("backToTop")} <ArrowUpRight size={16} aria-hidden="true" />
     </button>
   );
 }

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { ActionLink } from "@/components/ui/action-link";
 import { Container, Section } from "@/components/ui/layout";
 import { BodyCopy, Eyebrow, Heading } from "@/components/ui/typography";
@@ -13,13 +14,15 @@ export function ProjectInvitation({
   title: ReactNode;
   description: ReactNode;
 }) {
+  const t = useTranslations("projectInvitation");
+
   return (
     <Section tone="copper" id={id} aria-labelledby={`${id}-heading`}>
       <Container>
         <div className="mb-8 flex items-center justify-between gap-6 border-b border-mineral/30 pb-5">
-          <Eyebrow>Start with a conversation</Eyebrow>
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
           <span className="hidden text-xs md:block">
-            Plumbing & electrical contracting
+            {t("businessType")}
           </span>
         </div>
         <div className="grid gap-8 md:grid-cols-[1.5fr_0.8fr] md:items-center md:gap-12">
@@ -47,10 +50,10 @@ export function ProjectInvitation({
               </a>
             )}
             <ActionLink href="/contact" variant="dark">
-              Discuss your project
+              {t("discussProject")}
             </ActionLink>
             <ActionLink href="/services" variant="accent">
-              Explore plumbing & electrical
+              {t("exploreServices")}
             </ActionLink>
           </div>
         </div>

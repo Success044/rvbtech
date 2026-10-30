@@ -1,14 +1,16 @@
 "use client";
 
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { ActionLink } from "@/components/ui/action-link";
+import { Link, usePathname } from "@/i18n/navigation";
+import { LanguageSwitcher } from "./language-switcher";
 import { NavigationLinks } from "./navigation-links";
 import { Wordmark } from "./wordmark";
 
 export function SiteHeader() {
+  const t = useTranslations("header");
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -43,22 +45,22 @@ export function SiteHeader() {
           id="site-logo"
           className="inline-flex w-fit shrink-0 items-center gap-3 rounded-lg"
           href="/"
-          aria-label="rvbtech home"
+          aria-label={t("homeLink")}
           onClick={() => setIsOpen(false)}
         >
           <Wordmark />
           <span className="hidden flex-col gap-1 sm:flex">
-            <span className="text-base leading-none font-semibold tracking-tight">
+            {/* <span className="text-base leading-none font-semibold tracking-tight">
               R.V.B Tech
-            </span>
+            </span> */}
             <span className="text-[0.6875rem] text-graphite/75">
-              Plumbing & electrical
+              {t("businessType")}
             </span>
           </span>
         </Link>
         <nav
           className="hidden items-center gap-1 lg:flex"
-          aria-label="Main navigation"
+          aria-label={t("mainNavigation")}
         >
           <NavigationLinks
             activePath={pathname}
@@ -68,6 +70,7 @@ export function SiteHeader() {
           />
         </nav>
         <div className="flex items-center justify-end gap-2">
+          <LanguageSwitcher />
           <ActionLink
             href="/contact"
             variant="dark"
@@ -82,15 +85,15 @@ export function SiteHeader() {
               />
             }
           >
-            <span className="sm:hidden">Let’s talk</span>
-            <span className="hidden sm:inline">Discuss your project</span>
+            <span className="sm:hidden">{t("letsTalk")}</span>
+            <span className="hidden sm:inline">{t("discussProject")}</span>
           </ActionLink>
           <button
             className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg border border-graphite/10 bg-white/50 transition-colors hover:bg-graphite/5 aria-expanded:bg-sage/12 motion-reduce:transition-none lg:hidden"
             type="button"
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
-            aria-label={isOpen ? "Close navigation" : "Open navigation"}
+            aria-label={isOpen ? t("closeNavigation") : t("openNavigation")}
             onClick={() => setIsOpen(!isOpen)}
             ref={toggleRef}
           >
@@ -105,7 +108,7 @@ export function SiteHeader() {
       <nav
         id="mobile-navigation"
         className="mt-2 border-t border-graphite/10 pt-2 lg:hidden"
-        aria-label="Mobile navigation"
+        aria-label={t("mobileNavigation")}
         hidden={!isOpen}
       >
         <div className="flex flex-col gap-1">
@@ -117,7 +120,7 @@ export function SiteHeader() {
             onNavigate={() => setIsOpen(false)}
           />
           <p className="px-4 pt-3 pb-2 text-xs text-graphite/75">
-            Plumbing & electrical. Planned together.
+            {t("mobileTagline")}
           </p>
         </div>
       </nav>

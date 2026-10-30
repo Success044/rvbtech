@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUpRight, Check } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, useCallback, useRef, useState } from "react";
 import { Turnstile } from "@/components/ui/turnstile";
 import { contactServices } from "@/content/contact";
@@ -14,6 +15,8 @@ const inputClass =
   "mt-2 block min-h-12 w-full rounded-sm border border-line bg-white px-3.5 py-3 text-base text-graphite placeholder:text-muted/60 focus:border-sage focus:outline-2 focus:outline-offset-2 focus:outline-sage aria-invalid:border-copper";
 
 export function ContactForm({ siteKey }: { siteKey: string }) {
+  const locale = useLocale();
+  const t = useTranslations("contactForm");
   const formRef = useRef<HTMLFormElement>(null);
   const submissionId = useRef("");
   const sendingRef = useRef(false);
@@ -23,13 +26,90 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const serviceLabels: Record<
+    (typeof contactServices)[number]["value"],
+    string
+  > = {
+    plumbing: t("services.plumbing"),
+    electrical: t("services.electrical"),
+    both: t("services.both"),
+    "not-sure": t("services.notSure"),
+  };
+  const validationMessages: Record<string, string> = {
+    "Enter text in this field.": t("errors.text"),
+    "Enter your name using 2 to 100 characters.": t("errors.name"),
+    "Enter a phone number or email so we can get back to you.": t(
+      "errors.phoneOrEmail",
+    ),
+    "Enter an email or phone number so we can get back to you.": t(
+      "errors.emailOrPhone",
+    ),
+    "Enter a valid phone number, including the country code if needed.":
+      t("errors.phoneFormat"),
+    "Enter a valid email address.": t("errors.emailFormat"),
+    "Choose the service you need.": t("errors.service"),
+    "Keep the location to 120 characters, on one line.": t("errors.location"),
+    "Describe the work using 10 to 3,000 characters.": t("errors.message"),
+  };
+  const serverMessages = [
+    "We can’t send your enquiry right now. Please call or email us instead.",
+    "You’ve tried a few times. Please wait before sending another enquiry.",
+    "Your enquiry could not be read. Keep the message within the form’s limits and try again.",
+    "Check the form and try again.",
+    "Your enquiry could not be accepted. Please call or email us instead.",
+    "Refresh the contact page and try again.",
+    "Complete the security check, then try again.",
+    "The security check expired or could not be verified. Please try again.",
+    "Online enquiries are temporarily busy. Please call or email us instead.",
+    "Your enquiry could not be sent. Your message is still here; please try again or contact us directly.",
+    "Your enquiry was sent, but we couldn’t send a copy to your email address. We’ll contact you using the details you provided.",
+    "Your enquiry was submitted to our team. Resend accepted a copy for sending to your email address; inbox delivery may vary.",
+    "Your enquiry was submitted to our team, but we couldn’t confirm that Resend accepted the email copy.",
+    "Your enquiry was submitted to our team. We’ll get back to you using the contact details you provided.",
+  ];
+  const translatedServerMessages = [
+    t("serverMessages.0"),
+    t("serverMessages.1"),
+    t("serverMessages.2"),
+    t("serverMessages.3"),
+    t("serverMessages.4"),
+    t("serverMessages.5"),
+    t("serverMessages.6"),
+    t("serverMessages.7"),
+    t("serverMessages.8"),
+    t("serverMessages.9"),
+    t("serverMessages.10"),
+    t("serverMessages.11"),
+    t("serverMessages.12"),
+    t("serverMessages.13"),
+  ];
+
+  function localizeErrors(source: ContactErrors): ContactErrors {
+    const localized: ContactErrors = {};
+    for (const field of Object.keys(source) as (keyof ContactFields)[]) {
+      const message = source[field];
+      if (message)
+        localized[field] = validationMessages[message] ?? t("errors.text");
+    }
+    return localized;
+  }
+
+  function localizeServerMessage(
+    message: string | undefined,
+    fallback: string,
+  ) {
+    if (!message) return fallback;
+    if (message === "Please check the highlighted fields.")
+      return t("checkFields");
+    const index = serverMessages.indexOf(message);
+    return index === -1 ? fallback : translatedServerMessages[index];
+  }
+
   const onToken = useCallback((value: string) => setToken(value), []);
   const onChallengeError = useCallback(() => {
     setToken("");
-    setFeedback(
-      "The security check could not load. Please try again, or use the contact details beside the form.",
-    );
-  }, []);
+    setFeedback(t("securityUnavailable"));
+  }, [t]);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -40,18 +120,15 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
     const data = new FormData(form);
     const input = Object.fromEntries(data.entries());
     const validation = validateContactFields(input);
-    setErrors(validation.errors);
+    const localizedErrors = localizeErrors(validation.errors);
+    setErrors(localizedErrors);
     const invalid = Object.keys(validation.errors)[0];
     if (invalid) {
       form.querySelector<HTMLElement>(`[name="${invalid}"]`)?.focus();
       return;
     }
     if (!siteKey || !token) {
-      setFeedback(
-        siteKey
-          ? "Please complete the security check before sending."
-          : "Online enquiries will be available shortly. Please call, WhatsApp, or email us for now.",
-      );
+      setFeedback(siteKey ? t("securityRequired") : t("unavailable"));
       return;
     }
     sendingRef.current = true;
@@ -64,6 +141,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         credentials: "same-origin",
         body: JSON.stringify({
           ...validation.fields,
+          locale,
           website: String(data.get("website") ?? ""),
           turnstileToken: token,
           submissionId: submissionId.current,
@@ -76,29 +154,22 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
       };
       if (!response.ok) {
         if (result.errors) {
-          setErrors(result.errors);
+          const localizedErrors = localizeErrors(result.errors);
+          setErrors(localizedErrors);
           const first = Object.keys(result.errors)[0];
           if (first)
             form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
         }
-        setFeedback(
-          result.message ??
-            "Your enquiry could not be sent. Please try again or contact us directly.",
-        );
+        setFeedback(localizeServerMessage(result.message, t("sendFailed")));
         return;
       }
       setSent(true);
-      setFeedback(
-        result.message ??
-          "Your enquiry has been submitted. We’ll get back to you using the details you provided.",
-      );
+      setFeedback(localizeServerMessage(result.message, t("sent")));
       form.reset();
       submissionId.current = "";
       setErrors({});
     } catch {
-      setFeedback(
-        "We couldn’t confirm your enquiry was sent. Your message is still here; please try again or contact us directly.",
-      );
+      setFeedback(t("uncertain"));
     } finally {
       sendingRef.current = false;
       setSending(false);
@@ -158,17 +229,14 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         id="enquiry-form-heading"
         className="text-xl font-medium tracking-tight"
       >
-        Tell us about the work
+        {t("heading")}
       </h2>
-      <p className="mt-2 text-sm leading-relaxed text-muted">
-        A few details are enough to start. Please include a phone number or
-        email so we can reply.
-      </p>
+      <p className="mt-2 text-sm leading-relaxed text-muted">{t("intro")}</p>
       <fieldset disabled={sending} className="mt-7 grid gap-5 sm:grid-cols-2">
-        <legend className="sr-only">Your enquiry details</legend>
+        <legend className="sr-only">{t("legend")}</legend>
         <div className="sm:col-span-2">
           <label className="text-sm font-medium" htmlFor="contact-name">
-            Name <span className="text-muted">(required)</span>
+            {t("name")} <span className="text-muted">({t("required")})</span>
           </label>
           <input
             id="contact-name"
@@ -183,7 +251,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         </div>
         <div>
           <label className="text-sm font-medium" htmlFor="contact-phone">
-            Phone / WhatsApp
+            {t("phone")}
           </label>
           <input
             id="contact-phone"
@@ -198,7 +266,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         </div>
         <div>
           <label className="text-sm font-medium" htmlFor="contact-email">
-            Email
+            {t("email")}
           </label>
           <input
             id="contact-email"
@@ -213,7 +281,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         </div>
         <div>
           <label className="text-sm font-medium" htmlFor="contact-service">
-            Service <span className="text-muted">(required)</span>
+            {t("service")} <span className="text-muted">({t("required")})</span>
           </label>
           <select
             id="contact-service"
@@ -224,11 +292,11 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
             {...errorAttributes("service")}
           >
             <option value="" disabled>
-              Select a service
+              {t("selectService")}
             </option>
             {contactServices.map((service) => (
               <option key={service.value} value={service.value}>
-                {service.label}
+                {serviceLabels[service.value]}
               </option>
             ))}
           </select>
@@ -236,7 +304,8 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         </div>
         <div>
           <label className="text-sm font-medium" htmlFor="contact-location">
-            Area or city <span className="text-muted">(optional)</span>
+            {t("location")}{" "}
+            <span className="text-muted">({t("optional")})</span>
           </label>
           <input
             id="contact-location"
@@ -250,7 +319,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         </div>
         <div className="sm:col-span-2">
           <label className="text-sm font-medium" htmlFor="contact-message">
-            What do you need? <span className="text-muted">(required)</span>
+            {t("message")} <span className="text-muted">({t("required")})</span>
           </label>
           <textarea
             id="contact-message"
@@ -259,14 +328,14 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
             rows={5}
             minLength={10}
             maxLength={3000}
-            placeholder="Tell us about your space and the work you have in mind."
+            placeholder={t("messagePlaceholder")}
             required
             {...errorAttributes("message")}
           />
           {fieldError("message")}
         </div>
         <div className="hidden" aria-hidden="true">
-          <label htmlFor="contact-website">Leave this field empty</label>
+          <label htmlFor="contact-website">{t("honeypot")}</label>
           <input
             id="contact-website"
             name="website"
@@ -276,10 +345,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         </div>
       </fieldset>
       <p className="mt-4 max-w-[62ch] text-xs leading-relaxed text-muted">
-        We use these details to respond to your enquiry. Please share only what
-        is needed to discuss the work. If you provide an email address, we’ll
-        also send a copy of your enquiry to it. Submissions are processed by
-        Cloudflare and our email provider, Resend.
+        {t("privacy")}
       </p>
       <div className="mt-5">
         {siteKey ? (
@@ -291,8 +357,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
           />
         ) : (
           <p className="rounded-sm bg-paper/50 px-4 py-3 text-sm leading-relaxed text-muted">
-            Online enquiries will be available shortly. You can call, WhatsApp,
-            or email us for now.
+            {t("unavailable")}
           </p>
         )}
       </div>
@@ -312,7 +377,7 @@ export function ContactForm({ siteKey }: { siteKey: string }) {
         className="mt-5 inline-flex min-h-12 items-center gap-8 rounded-sm bg-copper px-5 py-3 text-sm font-semibold text-white hover:bg-copper-strong disabled:cursor-not-allowed disabled:opacity-60"
         disabled={sending || !siteKey || !token}
       >
-        {sending ? "Sending enquiry…" : "Send enquiry"}
+        {sending ? t("sending") : t("send")}
         <ArrowUpRight size={18} aria-hidden="true" />
       </button>
     </form>

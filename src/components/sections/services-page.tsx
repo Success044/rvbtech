@@ -1,15 +1,40 @@
 import { ArrowDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { ServiceDetailDrawing } from "@/components/illustrations/service-detail-drawing";
 import { ActionLink } from "@/components/ui/action-link";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Container } from "@/components/ui/layout";
 import { ServiceGallery } from "@/components/ui/service-gallery";
 import type { ServicesMedia } from "@/content/media";
-import { serviceSummaries } from "@/content/services";
 import { cx } from "@/lib/classes";
 import { WorkVideos } from "./work-videos";
 
 export function ServicesPage({ images, videos }: ServicesMedia) {
+  const t = useTranslations("servicesPage");
+  const serviceSummaries = [
+    {
+      id: "plumbing",
+      title: t("plumbing.title"),
+      description: t("plumbing.description"),
+      topics: [
+        t("plumbing.topics.0"),
+        t("plumbing.topics.1"),
+        t("plumbing.topics.2"),
+        t("plumbing.topics.3"),
+      ],
+    },
+    {
+      id: "electrical",
+      title: t("electrical.title"),
+      description: t("electrical.description"),
+      topics: [
+        t("electrical.topics.0"),
+        t("electrical.topics.1"),
+        t("electrical.topics.2"),
+      ],
+    },
+  ] as const;
+
   return (
     <>
       <section
@@ -17,23 +42,22 @@ export function ServicesPage({ images, videos }: ServicesMedia) {
         aria-labelledby="services-page-heading"
       >
         <Container>
-          <Breadcrumb currentPage="Services" />
+          <Breadcrumb currentPage={t("pageTitle")} />
           <div className="grid items-center gap-8 pt-8 md:grid-cols-[1.1fr_0.9fr] md:gap-10 lg:pt-12 xl:gap-20">
             <header>
               <h1
                 id="services-page-heading"
                 className="text-display-page md:text-display-page-wide leading-[1.02] font-semibold tracking-[-0.055em]"
               >
-                <span className="block">Plumbing &</span>
-                <span className="block">electrical.</span>
+                <span className="block">{t("headingLine1")}</span>
+                <span className="block">{t("headingLine2")}</span>
               </h1>
               <p className="text-muted mt-6 max-w-[42ch] text-base leading-relaxed">
-                Water supply, bathroom fittings, lighting and wiring. See what
-                we install and take a closer look at our work.
+                {t("intro")}
               </p>
               <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <ActionLink href="/contact" className="rounded-lg">
-                  Discuss your project
+                  {t("discussProject")}
                 </ActionLink>
                 {images.length > 0 && (
                   <ActionLink
@@ -41,7 +65,7 @@ export function ServicesPage({ images, videos }: ServicesMedia) {
                     variant="text"
                     icon={<ArrowDown size={16} aria-hidden="true" />}
                   >
-                    View our work
+                    {t("viewWork")}
                   </ActionLink>
                 )}
               </div>
@@ -49,7 +73,7 @@ export function ServicesPage({ images, videos }: ServicesMedia) {
             <figure className="mx-auto w-full max-w-lg md:mx-0 md:justify-self-end">
               <ServiceDetailDrawing />
               <figcaption className="text-muted mt-1 text-center text-[0.6875rem]">
-                A closer look at the connections. Concept illustration.
+                {t("illustrationCaption")}
               </figcaption>
             </figure>
           </div>
@@ -58,7 +82,7 @@ export function ServicesPage({ images, videos }: ServicesMedia) {
 
       <section
         className="text-graphite bg-white pb-12 md:pb-16"
-        aria-label="Services we offer"
+        aria-label={t("servicesLabel")}
       >
         <Container>
           <div className="border-line/70 grid gap-8 border-t pt-8 md:grid-cols-2 md:gap-12 md:pt-10 xl:gap-20">
@@ -124,14 +148,14 @@ export function ServicesPage({ images, videos }: ServicesMedia) {
               id="services-enquiry-heading"
               className="text-2xl font-semibold tracking-tight md:text-3xl"
             >
-              Have a project in mind?
+              {t("enquiryHeading")}
             </h2>
             <p className="text-muted mt-2 text-sm leading-relaxed">
-              Tell us about your space and the work you need.
+              {t("enquiryDescription")}
             </p>
           </div>
           <ActionLink href="/contact" className="shrink-0 rounded-lg">
-            Discuss your project
+            {t("discussProject")}
           </ActionLink>
         </Container>
       </section>

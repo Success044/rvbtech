@@ -6,6 +6,10 @@ import {
   createDevelopmentLimiter,
 } from "../src/lib/contact/rate-limit.ts";
 import {
+  getTurnstileSecretKey,
+  getTurnstileSiteKey,
+} from "../src/lib/contact/turnstile-config.ts";
+import {
   maxContactBodyBytes,
   validateContactFields,
 } from "../src/lib/contact/validation.ts";
@@ -30,6 +34,40 @@ const validInput = {
   turnstileToken: "fixture-challenge-token",
   submissionId: "439a404e-9d57-4a89-8619-052a78f201af",
 };
+
+test("uses Cloudflare test keys only in development and genuine keys otherwise", () => {
+  const env = {
+    NODE_ENV: "development",
+    NEXT_PUBLIC_TURNSTILE_TEST_SITE_KEY: "test-site-key",
+    TURNSTILE_TEST_SECRET_KEY: "test-secret",
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: "production-site-key",
+    TURNSTILE_SECRET_KEY: "production-secret",
+  };
+  assert.equal(getTurnstileSiteKey(env), "test-site-key");
+  assert.equal(getTurnstileSecretKey(env), "test-secret");
+  assert.equal(
+    getTurnstileSiteKey({ ...env, NODE_ENV: "production" }),
+    "production-site-key",
+  );
+  assert.equal(
+    getTurnstileSecretKey({ ...env, NODE_ENV: "production" }),
+    "production-secret",
+  );
+  assert.equal(
+    getTurnstileSiteKey({
+      NODE_ENV: "development",
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: "production-site-key",
+    }),
+    undefined,
+  );
+  assert.equal(
+    getTurnstileSecretKey({
+      NODE_ENV: "development",
+      TURNSTILE_SECRET_KEY: "production-secret",
+    }),
+    undefined,
+  );
+});
 
 function request(input = validInput, headers = {}, method = "POST") {
   return new Request(`${origin}/api/contact`, {
@@ -125,6 +163,22 @@ test("sends the enquiry to the business inbox and a copy to the visitor", async 
     !body.includes(validInput.message) && !body.includes(validInput.email),
   );
   assert.equal(response.headers.get("cache-control"), "no-store");
+});
+
+test("sends the visitor's confirmation email in Nepali for Nepali enquiries", async () => {
+  const { runtime, calls } = fixture();
+  const response = await handleContact(
+    request({ ...validInput, locale: "ne" }),
+    environment,
+    runtime,
+  );
+  assert.equal(response.status, 200);
+  assert.ok(calls[1].body.text.includes("Service: Plumbing"));
+  assert.ok(calls[2].body.subject.includes("R.V.B Tech"));
+  assert.ok(calls[2].body.text.startsWith(`नमस्कार ${validInput.name},`));
+  assert.ok(calls[2].body.text.includes("सेवा: प्लम्बिङ"));
+  assert.ok(calls[2].body.text.includes("स्थान: Kathmandu"));
+  assert.ok(calls[2].body.text.includes("तपाईंको सन्देश:"));
 });
 
 test("sends no visitor copy when the enquiry has no email address", async () => {

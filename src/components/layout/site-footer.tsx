@@ -1,13 +1,21 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Container } from "@/components/ui/layout";
 import { BackToTop } from "@/components/ui/page-controls";
 import { BodyCopy } from "@/components/ui/typography";
 import { site } from "@/content/site";
+import { Link } from "@/i18n/navigation";
 import { NavigationLinks } from "./navigation-links";
 import { Wordmark } from "./wordmark";
 
-export async function SiteFooter() {
+async function CopyrightYear() {
   "use cache";
+
+  return new Date().getFullYear();
+}
+
+export function SiteFooter() {
+  const t = useTranslations("footer");
+  const controls = useTranslations("controls");
 
   return (
     <footer className="bg-graphite text-mineral [--focus-color:var(--color-copper-light)]">
@@ -17,19 +25,19 @@ export async function SiteFooter() {
             <Link
               className="inline-flex shrink-0 items-center"
               href="/"
-              aria-label="rvbtech home"
+              aria-label={t("homeLink")}
             >
               <Wordmark />
             </Link>
             <BodyCopy className="mt-5 text-mineral/65">
-              Plumbing & electrical contracting.
+              {t("description")}
               <br />
-              Built from the inside out.
+              {t("tagline")}
             </BodyCopy>
           </div>
           <nav
             className="flex flex-wrap gap-6 md:gap-8"
-            aria-label="Footer navigation"
+            aria-label={controls("footerNavigation")}
           >
             <NavigationLinks className="text-xs md:text-[0.8125rem]" />
           </nav>
@@ -37,23 +45,26 @@ export async function SiteFooter() {
         </div>
         <div className="flex flex-col justify-between gap-4 border-t border-line-dark py-6 text-[0.6875rem] text-mineral/65 md:flex-row md:items-center md:gap-6">
           <p>
-            © {new Date().getFullYear()} {site.name}. All rights reserved.
+            © <CopyrightYear /> {site.name}. {t("rights")}
           </p>
-          <nav className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Legal">
+          <nav
+            className="flex flex-wrap gap-x-5 gap-y-2"
+            aria-label={t("legalNavigation")}
+          >
             <Link
               className="min-h-8 inline-flex items-center hover:text-copper-light"
               href="/privacy-policy"
             >
-              Privacy Policy
+              {t("privacyPolicy")}
             </Link>
             <Link
               className="min-h-8 inline-flex items-center hover:text-copper-light"
               href="/terms-and-conditions"
             >
-              Terms and Conditions
+              {t("termsAndConditions")}
             </Link>
           </nav>
-          <p>Thoughtfully planned. Carefully connected.</p>
+          <p>{t("closing")}</p>
         </div>
       </Container>
     </footer>
