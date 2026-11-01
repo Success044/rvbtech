@@ -2,6 +2,7 @@ import { companyLogo } from "@/content/media";
 
 export const site = {
   name: "rvbtech",
+  url: "https://rvbtech.com.np",
   title: "rvbtech — Plumbing & Electrical Contracting",
   description:
     "Thoughtful planning and careful plumbing and electrical installation. Meet rvbtech, a contracting company building from the inside out.",

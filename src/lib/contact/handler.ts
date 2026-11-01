@@ -212,11 +212,18 @@ export async function handleContact(
       "service",
       "location",
       "message",
+      "locale",
       "website",
       "turnstileToken",
       "submissionId",
     ]);
     if (Object.keys(record).some((key) => !allowedFields.has(key)))
+      return reply(400, { message: "Check the form and try again." });
+    if (
+      record.locale !== undefined &&
+      record.locale !== "en" &&
+      record.locale !== "ne"
+    )
       return reply(400, { message: "Check the form and try again." });
     if (typeof record.website !== "string" || record.website.trim())
       return reply(400, {
@@ -292,6 +299,12 @@ export async function handleContact(
       both: "Plumbing and electrical",
       "not-sure": "General",
     };
+    const servicesNepali: Record<string, string> = {
+      plumbing: "प्लम्बिङ",
+      electrical: "विद्युतीय सेवा",
+      both: "प्लम्बिङ तथा विद्युतीय सेवा",
+      "not-sure": "सामान्य जिज्ञासा",
+    };
     const enquiryText = `Name: ${fields.name}\nPhone: ${fields.phone || "Not provided"}\nEmail: ${fields.email || "Not provided"}\nService: ${services[fields.service]}\nLocation: ${fields.location || "Not provided"}\n\n${fields.message}\n\nSubmitted via the R.V.B Tech contact page.`;
     const result = await fetcher("https://api.resend.com/emails", {
       method: "POST",
@@ -319,6 +332,22 @@ export async function handleContact(
     let copySent = false;
     if (fields.email) {
       try {
+        const visitorLocale = record.locale === "ne" ? "ne" : "en";
+        const serviceName =
+          visitorLocale === "ne"
+            ? servicesNepali[fields.service]
+            : services[fields.service];
+        const location =
+          fields.location ||
+          (visitorLocale === "ne" ? "उल्लेख गरिएको छैन" : "Not provided");
+        const emailSubject =
+          visitorLocale === "ne"
+            ? "तपाईंको जिज्ञासा प्राप्त भयो — R.V.B Tech"
+            : "We received your enquiry — R.V.B Tech";
+        const emailText =
+          visitorLocale === "ne"
+            ? `नमस्कार ${fields.name},\n\nR.V.B Tech लाई सम्पर्क गर्नुभएकोमा धन्यवाद।\n\nतपाईंको जिज्ञासा प्राप्त भएको छ। तपाईंले पठाउनुभएका विवरण:\n\nसेवा: ${serviceName}\nस्थान: ${location}\nतपाईंको सन्देश:\n${fields.message}\n\nहाम्रो टोलीले तपाईंको अनुरोध हेरेर सम्पर्क गर्नेछ।\n\nशुभेच्छासहित,\nR.V.B Tech टोली`
+            : `Hello ${fields.name},\n\nThank you for reaching out to R.V.B Tech.\n\nWe’ve received your enquiry. Here are the details you submitted:\n\nService: ${serviceName}\nLocation: ${location}\nYour message:\n${fields.message}\n\nOur team will review your request and get in touch with you.\n\nRegards,\nR.V.B Tech Team`;
         const copyResult = await fetcher("https://api.resend.com/emails", {
           method: "POST",
           headers: {
@@ -330,8 +359,8 @@ export async function handleContact(
             from: `R.V.B Tech <${from}>`,
             to: [fields.email],
             reply_to: to,
-            subject: "We received your enquiry — R.V.B Tech",
-            text: `Hello ${fields.name},\n\nThank you for reaching out to R.V.B Tech.\n\nWe’ve received your enquiry. Here are the details you submitted:\n\nService: ${services[fields.service]}\nLocation: ${fields.location || "Not provided"}\nYour message:\n${fields.message}\n\nOur team will review your request and get in touch with you.\n\nRegards,\nR.V.B Tech Team`,
+            subject: emailSubject,
+            text: emailText,
           }),
           signal: AbortSignal.timeout(10_000),
         });

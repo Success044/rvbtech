@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { selectedWork, siteVideos } from "../src/content/media.ts";
+import {
+  selectedWork,
+  serviceMedia,
+  siteVideos,
+} from "../src/content/media.ts";
 import {
   isSanityImage,
   sanityImageLoader,
@@ -49,6 +53,29 @@ test("maps ordered CMS photos and videos without changing visibility or losing s
       ["video-2", false],
     ],
   );
+});
+
+test("keeps Nepali CMS fields and matches unchanged imported media to local translations", () => {
+  const knownPhoto = serviceMedia.plumbing[0];
+  const media = mapSanityMedia({
+    photos: [
+      {
+        ...photo,
+        alt: knownPhoto.alt,
+        caption: knownPhoto.caption,
+        asset: photo.asset,
+      },
+      { ...photo, altNe: "नेपाली वैकल्पिक पाठ", captionNe: "नेपाली क्याप्सन" },
+    ],
+    videos: [video, { ...video, titleNe: "नेपाली शीर्षक" }],
+  });
+
+  assert.equal(media.images[0].altNe, knownPhoto.altNe);
+  assert.equal(media.images[0].captionNe, knownPhoto.captionNe);
+  assert.equal(media.images[1].altNe, "नेपाली वैकल्पिक पाठ");
+  assert.equal(media.images[1].captionNe, "नेपाली क्याप्सन");
+  assert.equal(media.videos[0].titleNe, siteVideos[0].titleNe);
+  assert.equal(media.videos[1].titleNe, "नेपाली शीर्षक");
 });
 
 test("applies the editor's image crop and carries it into responsive CDN URLs", () => {

@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
 import type { MouseEventHandler, ReactNode } from "react";
+import { Link } from "@/i18n/navigation";
 import { cx } from "@/lib/classes";
 
 const variants = {

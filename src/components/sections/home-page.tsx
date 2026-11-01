@@ -6,7 +6,7 @@ import {
   Plus,
   Zap,
 } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { BuildingSystemsDrawing } from "@/components/illustrations/building-systems-drawing";
 import { ServiceDrawing } from "@/components/illustrations/service-drawing";
 import { ActionLink } from "@/components/ui/action-link";
@@ -19,53 +19,100 @@ import {
   SectionHeader,
   SectionRail,
 } from "@/components/ui/typography";
-import { process, services, site } from "@/content/site";
+import { site } from "@/content/site";
+import { Link } from "@/i18n/navigation";
 import { cx } from "@/lib/classes";
 import { ProjectInvitation } from "./project-invitation";
 
 export function HomePage() {
+  const t = useTranslations("home");
+  const services = [
+    {
+      id: "plumbing",
+      title: t("services.plumbing.title"),
+      diagramLabel: t("services.plumbing.diagramLabel"),
+      description: t("services.plumbing.description"),
+      topics: [
+        t("services.plumbing.topics.0"),
+        t("services.plumbing.topics.1"),
+        t("services.plumbing.topics.2"),
+      ],
+      link: t("services.plumbing.contact"),
+    },
+    {
+      id: "electrical",
+      title: t("services.electrical.title"),
+      diagramLabel: t("services.electrical.diagramLabel"),
+      description: t("services.electrical.description"),
+      topics: [
+        t("services.electrical.topics.0"),
+        t("services.electrical.topics.1"),
+        t("services.electrical.topics.2"),
+      ],
+      link: t("services.electrical.contact"),
+    },
+  ] as const;
+  const processSteps = [
+    {
+      title: t("process.steps.0.title"),
+      description: t("process.steps.0.description"),
+    },
+    {
+      title: t("process.steps.1.title"),
+      description: t("process.steps.1.description"),
+    },
+    {
+      title: t("process.steps.2.title"),
+      description: t("process.steps.2.description"),
+    },
+    {
+      title: t("process.steps.3.title"),
+      description: t("process.steps.3.description"),
+    },
+  ];
+
   return (
     <>
       <Section tone="graphite" spacing="none" aria-labelledby="hero-heading">
         <Container>
           <div className="flex items-center justify-between gap-6 border-b border-line-dark py-5">
             <Eyebrow className="text-mineral/80">
-              Plumbing & electrical contracting
+              {t("hero.descriptor")}
             </Eyebrow>
             <Link
               className="hidden min-h-7 items-center gap-5 text-xs text-mineral/70 hover:text-copper-light md:inline-flex"
               href="/services"
             >
-              From planning to handover
+              {t("hero.fromPlanning")}
               <ArrowDownRight size={16} aria-hidden="true" />
             </Link>
           </div>
           <div className="grid md:min-h-140 md:grid-cols-[1.12fr_1fr] xl:min-h-152">
             <div className="py-9 md:pr-7 md:py-11">
               <Heading as="h1" size="hero" id="hero-heading">
-                <span className="block">Built from </span>
-                <span className="block">the inside </span>
-                <span className="block">out.</span>
+                <span className="block">{t("hero.taglineLine1")}</span>
+                <span className="block">{t("hero.taglineLine2")}</span>
+                <span className="block">{t("hero.taglineLine3")}</span>
               </Heading>
               <BodyCopy className="mt-7 max-w-[25rem] text-mineral/75">
-                Good spaces start with what you don’t see. Thoughtful planning,
-                careful installation, and the connections that bring a building
-                to life.
+                {t("hero.description")}
               </BodyCopy>
               <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <ActionLink href="/contact">Discuss your project</ActionLink>
+                <ActionLink href="/contact">
+                  {t("hero.discussProject")}
+                </ActionLink>
                 <ActionLink
                   href="/services"
                   variant="light"
                   icon={<ArrowDown size={17} aria-hidden="true" />}
                 >
-                  Explore our services
+                  {t("hero.exploreServices")}
                 </ActionLink>
               </div>
             </div>
             <figure className="flex min-w-0 flex-col border-t border-line-dark md:border-x md:border-t-0">
               <div className="flex items-center justify-between px-5 pt-5 text-xs text-mineral/70">
-                <span>Behind the finish</span>
+                <span>{t("hero.behindTheFinish")}</span>
                 <Plus size={18} strokeWidth={1} aria-hidden="true" />
               </div>
               <div className="blueprint-grid relative h-80 overflow-hidden [--grid-color:var(--color-grid-dark)] md:h-auto md:min-h-80 md:flex-1">
@@ -75,21 +122,21 @@ export function HomePage() {
                 <span className="flex gap-5">
                   <span className="inline-flex items-center gap-2">
                     <i className="h-0.5 w-4 bg-copper-light" />
-                    Plumbing
+                    {t("hero.plumbing")}
                   </span>
                   <span className="inline-flex items-center gap-2">
                     <i className="h-0.5 w-4 bg-electric" />
-                    Electrical
+                    {t("hero.electrical")}
                   </span>
                 </span>
-                <span>Concept illustration</span>
+                <span>{t("hero.conceptIllustration")}</span>
               </figcaption>
               <div className="px-5 py-5">
                 <p className="mb-2 text-sm font-medium">
-                  A building is more than its finish.
+                  {t("hero.buildingMore")}
                 </p>
                 <p className="text-xs leading-relaxed text-mineral/65">
-                  Look closer at the systems that connect it.
+                  {t("hero.lookCloser")}
                 </p>
               </div>
             </figure>
@@ -100,13 +147,13 @@ export function HomePage() {
       <div className="bg-copper text-mineral">
         <Container className="flex flex-col items-start justify-between gap-4 py-6 md:flex-row md:items-center md:gap-8">
           <p className="text-sm font-semibold tracking-tight">
-            Built around your space.
+            {t("audience.heading")}
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-[0.6875rem] md:text-xs">
             {[
-              "Homeowners",
-              "Architects & designers",
-              "Builders & contractors",
+              t("audience.homeowners"),
+              t("audience.architects"),
+              t("audience.builders"),
             ].map((audience, index) => (
               <span
                 key={audience}
@@ -123,23 +170,19 @@ export function HomePage() {
 
       <Section id="approach" aria-labelledby="approach-heading">
         <Container>
-          <SectionRail label="Our approach">
+          <SectionRail label={t("approach.rail")}>
             <ArrowDownRight size={23} strokeWidth={1.5} aria-hidden="true" />
           </SectionRail>
           <div className="mt-8 grid gap-7 md:grid-cols-[1.05fr_1fr] md:gap-10 xl:gap-20">
             <Heading id="approach-heading" className="max-w-[13ch]">
-              The finish is only part of the story.
+              {t("approach.heading")}
             </Heading>
             <div className="max-w-lg">
               <p className="mb-5 text-lg leading-relaxed font-medium tracking-tight md:text-xl">
-                Behind every comfortable space is a network of decisions. Where
-                a pipe runs. How a wire is routed. How it all works together.
+                {t("approach.lead")}
               </p>
               <BodyCopy className="text-muted">
-                We believe plumbing and electrical work deserves the same care
-                as the spaces you see. That starts with understanding the
-                building, planning the details, and paying attention at every
-                connection.
+                {t("approach.description")}
               </BodyCopy>
               <ActionLink
                 href="/about"
@@ -147,24 +190,24 @@ export function HomePage() {
                 className="mt-4"
                 icon={<MoveRight size={19} aria-hidden="true" />}
               >
-                See how we work
+                {t("approach.link")}
               </ActionLink>
             </div>
           </div>
           <div className="mt-9 flex flex-col gap-3 border-y border-line py-5 text-xs font-medium md:mt-11 md:flex-row md:items-center md:justify-between md:gap-5">
-            <span>Planning before installation</span>
+            <span>{t("approach.planning")}</span>
             <Plus
               className="hidden text-copper md:block"
               size={16}
               aria-hidden="true"
             />
-            <span>Coordination between systems</span>
+            <span>{t("approach.coordination")}</span>
             <Plus
               className="hidden text-copper md:block"
               size={16}
               aria-hidden="true"
             />
-            <span>Care at every connection</span>
+            <span>{t("approach.connections")}</span>
           </div>
         </Container>
       </Section>
@@ -173,12 +216,12 @@ export function HomePage() {
         <Container>
           <SectionHeader
             id="services-heading"
-            label="What we do"
-            description="Plumbing and electrical work, considered as part of the whole building."
+            label={t("services.sectionLabel")}
+            description={t("services.sectionDescription")}
           >
-            Two disciplines.
+            {t("services.headingLine1")}
             <br />
-            One complete picture.
+            {t("services.headingLine2")}
           </SectionHeader>
           <div className="border-t-3 border-graphite">
             {services.map((service) => {
@@ -203,11 +246,7 @@ export function HomePage() {
                     )}
                   >
                     <div className="flex items-center justify-between gap-5 px-5 pt-5 text-xs text-graphite">
-                      <span>
-                        {electrical
-                          ? "Wiring & distribution"
-                          : "Supply & drainage"}
-                      </span>
+                      <span>{service.diagramLabel}</span>
                       {electrical ? (
                         <Zap size={21} strokeWidth={1.4} aria-hidden="true" />
                       ) : (
@@ -220,7 +259,7 @@ export function HomePage() {
                     </div>
                     <ServiceDrawing service={service.id} />
                     <figcaption className="px-5 pb-5 text-[0.625rem] text-muted">
-                      System concept illustration
+                      {t("services.conceptIllustration")}
                     </figcaption>
                   </figure>
                   <div
@@ -269,15 +308,15 @@ export function HomePage() {
         <Container>
           <SectionHeader
             id="process-heading"
-            label="How we work"
+            label={t("process.sectionLabel")}
             inverse
-            description="A clear path from the first conversation to the final walkthrough."
+            description={t("process.sectionDescription")}
           >
-            Every stage.
+            {t("process.headingLine1")}
             <br />
-            Every connection.
+            {t("process.headingLine2")}
           </SectionHeader>
-          <NumberedSteps steps={process} inverse />
+          <NumberedSteps steps={processSteps} inverse />
         </Container>
       </Section>
 
@@ -288,7 +327,7 @@ export function HomePage() {
             aria-hidden="true"
           >
             <div className="flex items-center justify-between border-b border-line-dark px-6 py-5 text-xs text-mineral/70">
-              <span>Plumbing + Electrical</span>
+              <span>{t("about.diagramLabel")}</span>
               <Plus size={18} strokeWidth={1} />
             </div>
             <div className="relative z-10 p-6 text-[clamp(4rem,19vw,7.25rem)] leading-tight font-extrabold tracking-[-0.075em] md:text-[clamp(4rem,8.2vw,7.25rem)]">
@@ -310,25 +349,20 @@ export function HomePage() {
               <circle cx="310" cy="95" r="8" fill="currentColor" />
             </svg>
             <p className="absolute bottom-6 left-6 z-10 bg-graphite pr-3 text-xs text-mineral/75">
-              The work behind the finish.
+              {t("about.caption")}
             </p>
           </div>
           <div className="max-w-lg">
-            <Eyebrow>Meet rvbtech</Eyebrow>
+            <Eyebrow>{t("about.eyebrow")}</Eyebrow>
             <Heading id="about-heading" className="mt-5 mb-6">
-              A company you can come back to.
+              {t("about.heading")}
             </Heading>
             <BodyCopy className="mb-4 text-muted">
-              rvbtech grew from a simple belief: good work should come with
-              clear advice and someone to turn to afterwards.
+              {t("about.paragraph1")}
             </BodyCopy>
-            <BodyCopy className="text-muted">
-              Our founder’s field experience shaped a more considered approach
-              to plumbing and electrical contracting. The company gives that
-              approach a place clients can return to.
-            </BodyCopy>
+            <BodyCopy className="text-muted">{t("about.paragraph2")}</BodyCopy>
             <ActionLink className="mt-4" href="/about" variant="text">
-              Read our story
+              {t("about.link")}
             </ActionLink>
           </div>
         </Container>
@@ -338,12 +372,12 @@ export function HomePage() {
         id="contact"
         title={
           <>
-            What are
+            {t("invitation.titleLine1")}
             <br />
-            you building?
+            {t("invitation.titleLine2")}
           </>
         }
-        description="A new home, a renovation, or a building taking shape. Let’s talk about the work that brings it together."
+        description={t("invitation.description")}
       />
     </>
   );

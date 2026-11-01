@@ -5,6 +5,7 @@ import {
   createDevelopmentLimiter,
   createUpstashLimiter,
 } from "@/lib/contact/rate-limit";
+import { getTurnstileSecretKey } from "@/lib/contact/turnstile-config";
 
 const developmentLimiter = createDevelopmentLimiter();
 
@@ -38,7 +39,7 @@ export async function POST(request: Request) {
       RESEND_API_KEY: process.env.RESEND_API_KEY,
       CONTACT_FROM_EMAIL: process.env.CONTACT_FROM_EMAIL,
       CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL,
-      TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
+      TURNSTILE_SECRET_KEY: getTurnstileSecretKey(process.env),
       CONTACT_ALLOWED_ORIGINS: process.env.CONTACT_ALLOWED_ORIGINS,
     },
     {

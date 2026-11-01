@@ -5,6 +5,7 @@ import {
   type ServicesMedia,
   type SiteVideo,
   selectedWork,
+  serviceMedia,
   siteVideos,
 } from "../content/media.ts";
 import { getYouTubeVideoId } from "../lib/youtube.ts";
@@ -12,6 +13,7 @@ import { sanityProject } from "./config.ts";
 
 const imageBuilder = createImageUrlBuilder(sanityProject);
 const assetIdPattern = /^image-[a-zA-Z0-9]+-[1-9]\d*x[1-9]\d*-[a-z0-9]+$/;
+const localPhotos = Object.values(serviceMedia).flat();
 
 function record(value: unknown): Record<string, unknown> | null {
   return value !== null && typeof value === "object" && !Array.isArray(value)
@@ -84,6 +86,11 @@ function photoFrom(value: unknown): ServicePhoto | null {
   const id = text(photo._key);
   const alt = text(photo.alt);
   const caption = text(photo.caption);
+  const localPhoto = localPhotos.find(
+    (item) => item.alt === alt && item.caption === caption,
+  );
+  const altNe = text(photo.altNe) ?? localPhoto?.altNe;
+  const captionNe = text(photo.captionNe) ?? localPhoto?.captionNe;
   const service = category(photo.category);
   const asset = record(photo.asset);
   const assetId = text(asset?._id);
@@ -131,7 +138,9 @@ function photoFrom(value: unknown): ServicePhoto | null {
     id,
     src,
     alt,
+    ...(altNe ? { altNe } : {}),
     caption,
+    ...(captionNe ? { captionNe } : {}),
     category: service,
     width: croppedWidth,
     height: croppedHeight,
@@ -144,10 +153,15 @@ function videoFrom(value: unknown): SiteVideo | null {
   const id = text(video._key);
   const title = text(video.title);
   const url = text(video.videoUrl);
+  const localVideo = siteVideos.find(
+    (item) => item.title === title && item.url === url,
+  );
+  const titleNe = text(video.titleNe) ?? localVideo?.titleNe;
   if (!id || !title || !url || !getYouTubeVideoId(url)) return null;
   return {
     id,
     title,
+    ...(titleNe ? { titleNe } : {}),
     url,
     category: category(video.serviceCategory),
     featured: video.featured === true,

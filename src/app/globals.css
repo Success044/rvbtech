@@ -75,6 +75,19 @@
   }
 }
 
+html[lang="ne"] {
+  --font-sans:
+    var(--font-noto-devanagari), var(--font-archivo), Arial, sans-serif;
+}
+
+html[lang="ne"] body {
+  line-height: 1.75;
+}
+
+html[lang="ne"] body * {
+  letter-spacing: normal;
+}
+
 /* One shared technical drawing texture; layout remains in Tailwind classes. */
 @utility blueprint-grid {
   background-image:

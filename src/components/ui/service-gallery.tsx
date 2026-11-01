@@ -2,18 +2,15 @@
 
 import { ArrowLeft, ArrowRight, Expand, X } from "lucide-react";
 import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import type { ServiceCategory, ServicePhoto } from "@/content/media";
 import { cx } from "@/lib/classes";
 import { isSanityImage, sanityImageLoader } from "@/lib/sanity-image-loader";
 
-const filters = [
-  { id: "all", label: "All work" },
-  { id: "plumbing", label: "Plumbing" },
-  { id: "electrical", label: "Electrical" },
-] as const;
-
 export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
+  const t = useTranslations("gallery");
+  const locale = useLocale();
   const [category, setCategory] = useState<ServiceCategory | "all">("all");
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -22,6 +19,15 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
   );
   const selectedImage =
     selectedIndex === null ? null : visibleImages[selectedIndex];
+  const imageCaption = (image: ServicePhoto) =>
+    locale === "ne" ? (image.captionNe ?? image.caption) : image.caption;
+  const imageAlt = (image: ServicePhoto) =>
+    locale === "ne" ? (image.altNe ?? image.alt) : image.alt;
+  const filters = [
+    { id: "all", label: t("all") },
+    { id: "plumbing", label: t("plumbing") },
+    { id: "electrical", label: t("electrical") },
+  ] as const;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -44,10 +50,10 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
           id="selected-work-heading"
           className="text-2xl font-semibold tracking-tight md:text-3xl"
         >
-          Selected work
+          {t("heading")}
         </h2>
         <fieldset className="flex gap-6">
-          <legend className="sr-only">Filter work by service</legend>
+          <legend className="sr-only">{t("filterLegend")}</legend>
           {filters.map((filter) => (
             <button
               key={filter.id}
@@ -67,7 +73,7 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
         </fieldset>
       </div>
       <output className="sr-only" aria-live="polite">
-        {visibleImages.length} photos shown
+        {t("photosShown", { count: visibleImages.length })}
       </output>
       <div className="columns-2 gap-4 md:columns-3 lg:columns-4 xl:gap-6">
         {visibleImages.map((image, index) => (
@@ -78,7 +84,9 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
             <button
               type="button"
               className="group bg-paper/35 relative block w-full overflow-hidden rounded-sm"
-              aria-label={`Enlarge ${image.caption.toLowerCase()}`}
+              aria-label={t("enlarge", {
+                caption: imageCaption(image).toLowerCase(),
+              })}
               aria-haspopup="dialog"
               onClick={() => setSelectedIndex(index)}
             >
@@ -88,7 +96,7 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
                 loader={
                   isSanityImage(image.src) ? sanityImageLoader : undefined
                 }
-                alt={image.alt}
+                alt={imageAlt(image)}
                 width={image.width}
                 height={image.height}
                 sizes="(min-width: 1416px) 312px, (min-width: 1280px) calc((100vw - 168px) / 4), (min-width: 1024px) calc((100vw - 112px) / 4), (min-width: 768px) calc((100vw - 96px) / 3), calc((100vw - 56px) / 2)"
@@ -98,7 +106,7 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
               </span>
             </button>
             <figcaption className="text-muted mt-2 text-xs leading-relaxed">
-              {image.caption}
+              {imageCaption(image)}
             </figcaption>
           </figure>
         ))}
@@ -119,13 +127,13 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
           <>
             <div className="flex items-center justify-between gap-4 px-4 py-2 sm:px-6">
               <h3 id="gallery-photo-caption" className="text-sm font-medium">
-                {selectedImage.caption}
+                {imageCaption(selectedImage)}
               </h3>
               <button
                 className="hover:bg-mineral/10 flex size-11 shrink-0 items-center justify-center"
                 type="button"
                 onClick={() => dialogRef.current?.close()}
-                aria-label="Close photo"
+                aria-label={t("close")}
               >
                 <X size={22} aria-hidden="true" />
               </button>
@@ -138,7 +146,7 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
                     ? sanityImageLoader
                     : undefined
                 }
-                alt={selectedImage.alt}
+                alt={imageAlt(selectedImage)}
                 fill
                 className="object-contain"
                 sizes="(min-width: 1280px) 1152px, 95vw"
@@ -149,10 +157,10 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
                 className="hover:text-copper-light flex min-h-11 items-center gap-2"
                 type="button"
                 onClick={() => changePhoto(-1)}
-                aria-label="Previous photo"
+                aria-label={t("previousPhoto")}
               >
                 <ArrowLeft size={18} aria-hidden="true" />
-                Previous
+                {t("previous")}
               </button>
               <span className="text-mineral/65 text-xs" aria-live="polite">
                 {(selectedIndex ?? 0) + 1} / {visibleImages.length}
@@ -161,9 +169,9 @@ export function ServiceGallery({ images }: { images: ServicePhoto[] }) {
                 className="hover:text-copper-light flex min-h-11 items-center gap-2"
                 type="button"
                 onClick={() => changePhoto(1)}
-                aria-label="Next photo"
+                aria-label={t("nextPhoto")}
               >
-                Next
+                {t("next")}
                 <ArrowRight size={18} aria-hidden="true" />
               </button>
             </div>

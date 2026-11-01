@@ -6,10 +6,10 @@ import { loadServicesMedia } from "./media";
 
 const mediaQuery = `*[_type == "servicesMedia" && _id == $id][0] {
   photos[] {
-    _key, alt, caption, category, isActive, crop, hotspot,
+    _key, alt, altNe, caption, captionNe, category, isActive, crop, hotspot,
     "asset": asset->{_id, metadata{dimensions{width, height}}}
   },
-  videos[] {_key, title, videoUrl, serviceCategory, featured}
+  videos[] {_key, title, titleNe, videoUrl, serviceCategory, featured}
 }`;
 
 export async function getServicesMedia() {
